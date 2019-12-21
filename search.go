@@ -72,6 +72,19 @@ func main() {
 		for i := range platforms {
 			fmt.Printf("%s\n", platforms[i].Name)
 		}
+
+		release, err := c.ReleaseDates.List(game.ReleaseDates, igdb.SetFields("human", "platform"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("\n")
+		fmt.Println("Release Dates:")
+		for i := range platforms {
+			for j := range release {
+				fmt.Printf("%s: %s\n", platforms[i].Name, release[j].Human)
+			}
+		}
+
 	}
 
 	return
