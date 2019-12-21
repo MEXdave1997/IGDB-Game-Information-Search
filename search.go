@@ -52,14 +52,26 @@ func main() {
 			log.Fatal(err)
 		}
 
+		platforms, err := c.Platforms.List(game.Platforms, igdb.SetFields("name"))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("%s\n", game.Name)
+
 		fmt.Printf("\n")
 		fmt.Printf("Summary:\n %s\n", game.Summary)
-		fmt.Printf("%s\n", game.Name)
 
 		fmt.Printf("\n")
 		fmt.Println("Genres:")
 		for i := range genres {
 			fmt.Printf("%s\n", genres[i].Name)
+		}
+
+		fmt.Printf("\n")
+		fmt.Println("Platforms:")
+		for i := range platforms {
+			fmt.Printf("%s\n", platforms[i].Name)
 		}
 	}
 
