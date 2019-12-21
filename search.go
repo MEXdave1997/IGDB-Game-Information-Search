@@ -52,7 +52,10 @@ func main() {
 			log.Fatal(err)
 		}
 
+		fmt.Printf("\n")
+		fmt.Printf("Summary:\n %s\n", game.Summary)
 		fmt.Printf("%s\n", game.Name)
+
 		fmt.Printf("\n")
 		fmt.Println("Genres:")
 		for i := range genres {
