@@ -47,25 +47,24 @@ func main() {
 	fmt.Printf("Information about \"%s\":\n", game)
 	for _, game := range search {
 		fmt.Printf("\n")
-		genres, err := c.Genres.List(game.Genres, igdb.SetFields("name"))
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		platforms, err := c.Platforms.List(game.Platforms, igdb.SetFields("name"))
-		if err != nil {
-			log.Fatal(err)
-		}
-
 		fmt.Printf("%s\n", game.Name)
 
 		fmt.Printf("\n")
 		fmt.Printf("Summary:\n %s\n", game.Summary)
 
+		genres, err := c.Genres.List(game.Genres, igdb.SetFields("name"))
+		if err != nil {
+			log.Fatal(err)
+		}
 		fmt.Printf("\n")
 		fmt.Println("Genres:")
 		for i := range genres {
 			fmt.Printf("%s\n", genres[i].Name)
+		}
+
+		platforms, err := c.Platforms.List(game.Platforms, igdb.SetFields("name"))
+		if err != nil {
+			log.Fatal(err)
 		}
 
 		fmt.Printf("\n")
