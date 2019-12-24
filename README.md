@@ -4,6 +4,12 @@ This program was created with the intent of searching and displaying information
 
 This project was created in [Go](https://golang.org) using the [IGDB Package](https://github.com/Henry-Sarabia/igdb).
 
+## Purpose
+This tool is designed with the needs of game reviewers in mind. It will help
+someone compile information for a game that they get that would be necessary,
+like a brief summary of the plot, what platforms the game was released on as
+well as the dates, and more.
+
 ## Compiling From Source
 
 If Go isn't already install, you can find installation instructions [here](https://golang.org/doc/install). 
