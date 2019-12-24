@@ -8,6 +8,8 @@ import (
 	"github.com/Henry-Sarabia/igdb"
 )
 
+// NOTE: These package level variables are only req.
+// for the flags and messages in main()
 var key string
 var game string
 
@@ -18,6 +20,7 @@ func init() {
 }
 
 func main() {
+	// Provide helpful messages here for when parameters are missing.
 	if key == "" {
 		fmt.Println("No Key has been provided. Please provide it by doing: \"-k <YOUR API KEY>")
 		return
@@ -27,6 +30,7 @@ func main() {
 		return
 	}
 
+	// TODO: Figure out how to implement a way to only grab an exact match, if it exists in the database.
 	c := igdb.NewClient(key, nil)
 
 	// Composing options set to retrieve all fields
@@ -46,6 +50,7 @@ func main() {
 	// Print out and format the results.
 	fmt.Printf("Information about \"%s\":\n", game)
 	for _, game := range search {
+		// NOTE: Maybe remove all the "\n" Printf() calls for Println() calls instead?
 		fmt.Printf("\n")
 		fmt.Printf("%s\n", game.Name)
 
@@ -73,11 +78,15 @@ func main() {
 			fmt.Printf("%s\n", platforms[i].Name)
 		}
 
+		// NOTE: Grabbing the data for this request was tricky.
+		// I needed to iterate through __BOTH__ yhe platforms __AND__ the releases endpoint
+		// in order to get the desired results of view release date via platform
 		release, err := c.ReleaseDates.List(game.ReleaseDates, igdb.SetFields("human", "platform"))
 		if err != nil {
 			log.Fatal(err)
 		}
 		fmt.Printf("\n")
+		// TODO: Maybe display region release date region as well?
 		fmt.Println("Release Dates:")
 		for i := range platforms {
 			for j := range release {
