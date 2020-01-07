@@ -80,7 +80,7 @@ func main() {
 		}
 
 		// NOTE: Grabbing the data for this request was tricky.
-		// I needed to iterate through __BOTH__ yhe platforms __AND__ the releases endpoint
+		// I needed to iterate through __BOTH__ the platforms __AND__ the releases endpoint
 		// in order to get the desired results of view release date via platform
 		release, err := c.ReleaseDates.List(game.ReleaseDates, igdb.SetFields("human", "platform", "region"))
 		if err != nil {
