@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/Henry-Sarabia/igdb"
 )
@@ -81,7 +82,7 @@ func main() {
 		// NOTE: Grabbing the data for this request was tricky.
 		// I needed to iterate through __BOTH__ yhe platforms __AND__ the releases endpoint
 		// in order to get the desired results of view release date via platform
-		release, err := c.ReleaseDates.List(game.ReleaseDates, igdb.SetFields("human", "platform"))
+		release, err := c.ReleaseDates.List(game.ReleaseDates, igdb.SetFields("human", "platform", "region"))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -90,7 +91,7 @@ func main() {
 		fmt.Println("Release Dates:")
 		for i := range platforms {
 			for j := range release {
-				fmt.Printf("%s: %s\n", platforms[i].Name, release[j].Human)
+				fmt.Printf("%s(%s): %s\n", platforms[i].Name, strings.TrimLeft(release[j].Region.String(), "Region"), release[j].Human)
 			}
 		}
 
