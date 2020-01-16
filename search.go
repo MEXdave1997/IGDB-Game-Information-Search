@@ -1,3 +1,18 @@
+/*
+Game Information search Powered by
+the Internet Gaming Database (IGDB)
+
+This package uses a given game name to querey the IGDB and
+present important information about the game to the user.
+
+Currently, it presents the following information:
+	- Name: The given name of the Game
+	- Summary: A Short Description of the Game
+	- Genres: A Formatted List of Genres associated with the Game
+	- Platforms: A List of Platforms the Game was released on.
+	- Release Dates: A List of Released dates for the Game
+					 along with Where it was released
+*/
 package main
 
 import (
