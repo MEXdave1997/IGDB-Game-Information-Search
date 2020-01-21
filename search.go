@@ -95,14 +95,16 @@ func main() {
 		}
 
 		// NOTE: Grabbing the data for this request was tricky.
-		// I needed to iterate through __BOTH__ the platforms __AND__ the releases endpoint
-		// in order to get the desired results of view release date via platform
+		// I needed to iterate through __BOTH__ the platforms __AND__ releases endpoint
+		// in order to get the desired results of view release date via the platform endpoint
 		release, err := c.ReleaseDates.List(game.ReleaseDates, igdb.SetFields("human", "platform", "region"))
 		if err != nil {
 			log.Fatal(err)
 		}
 		fmt.Printf("\n")
-		// TODO: Maybe display region release date region as well?
+
+		// NOTE: Region Release endpoint still needs more work.
+		// TODO: "Prettify" the region string for longer region names (i.e. "NorthAmerica" -> "North America")
 		fmt.Println("Release Dates:")
 		for i := range platforms {
 			for j := range release {
