@@ -1,0 +1,57 @@
+#+TITLE: README
+
+* IGDB Search
+
+This program was created with the intent of searching and displaying information for a game from the IGDB.
+
+This project was created in [[https://golang.org][Go]] using the [[https://github.com/Henry-Sarabia/igdb][IGDB pckage]].
+
+* Purpose
+
+This tool is designed with the needs of game reviewers in mind. It will help
+someone compile information for a game that they get that would be necessary,
+like a brief summary of the plot, what platforms the game was released on as
+well as the dates, and more.
+
+* Compiling From Source
+
+If Go isn't already install, you can find installation instructions [[https://golang.org/doc/install][here]].
+
+#+NOTE: This Project has dependencies that require Go Version 1.9 or later
+
+After installation, you can grab the dependencies using:
+
+#+BEGIN_SRC shell
+go get github.com/Henry-Sarabia/igdb
+#+END_SRC
+
+From here, you can compile by running:
+
+#+BEGIN_SRC shell
+go build
+#+END_SRC
+
+or
+
+#+BEGIN_SRC shell
+go build search.go
+#+END_SRC
+
+This will create a binary which you can then run from the command line for testing.
+
+** Usage
+Once compiled, you should have an executable file located in the project directory, named according to how you decided to build the project (more on that found [[https://golang.org/pkg/go/build/][here]]).
+
+The executable has 2 flags required in order to run:
+
+#+BEGIN_SRC shell
+    -g: Name of the game to search (in quotations if it has multiple words)
+
+    -k: IGDB API-Key that is used to communicate with the database
+#+END_SRC
+
+To run, assuming you used the second command to build:
+
+#+BEGIN_SRC shell
+    ./search -g <NAME_OF_GAME> -k <YOUR_API_KEY>
+#+END_SRC

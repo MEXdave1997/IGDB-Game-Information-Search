@@ -6,13 +6,14 @@ This package uses a given game name to querey the IGDB and
 present important information about the game to the user.
 
 Currently, it presents the following information:
-	- Name: The given name of the Game
-	- Summary: A Short Description of the Game
-	- Genres: A Formatted List of Genres associated with the Game
-	- Platforms: A List of Platforms the Game was released on.
-	- Release Dates: A List of Released dates for the Game
-					 along with Where it was released
+        - Name: The given name of the Game
+        - Summary: A Short Description of the Game
+        - Genres: A Formatted List of Genres associated with the Game
+        - Platforms: A List of Platforms the Game was released on.
+        - Release Dates: A List of Released dates for the Game
+                                         along with Where it was released
 */
+
 package main
 
 import (
@@ -21,33 +22,42 @@ import (
 	"log"
 	"strings"
 
-	"github.com/Henry-Sarabia/igdb"
+	"net/http"
+	// "os"
+	"encoding/json"
+
+	"github.com/Henry-Sarabia/igdb/v2"
 )
 
-// NOTE: These package level variables are only req.
+// NOTE: These package-level variables are only req.
 // for the flags and messages in main()
-var key string
+var clientID string = "YOUR_CLIENT_ID"
+var clientSecret string = "YOUR_CLIENT_SECRET"
 var game string
 
 func init() {
-	flag.StringVar(&key, "k", "", "Key for use tuse the IGDB API")
+	// flag.StringVar(&key, "k", "", "Key for use tuse the IGDB API")
 	flag.StringVar(&game, "g", "", "Game to be searched")
 	flag.Parse()
 }
 
 func main() {
-	// Provide helpful messages here for when parameters are missing.
-	if key == "" {
-		fmt.Println("No Key has been provided. Please provide it by doing: \"-k <YOUR API KEY>")
-		return
+
+	accessToken, err := getAppToken(clientID, clientSecret)
+	if err != nil {
+		panic(err)
 	}
+
+	// Provide helpful messages here for when parameters are missing.
 	if game == "" {
-		fmt.Println("No Game has been provided. Please provide it by doing: \"-g <\"NAME OF THE GAME\">\"")
+		fmt.Println(`No Game has been provided.
+                Please provide it by providing the "-g" flag
+                followed by the name of the game you intend to search.`)
 		return
 	}
 
 	// TODO: Figure out how to implement a way to only grab an exact match, if it exists in the database.
-	c := igdb.NewClient(key, nil)
+	c := igdb.NewClient(clientID, accessToken.AccessToken, nil)
 
 	// Composing options set to retrieve all fields
 	allOpts := igdb.ComposeOptions(
@@ -116,4 +126,29 @@ func main() {
 
 	return
 
+}
+
+// AccessTokenResponse Struct
+// This type stores the AccessToken required to autorize to the API server.
+type AccessTokenResponse struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn   int    `json:"expires_in"`
+	TokenType   string `json:"token_type"`
+}
+
+// This function will validate your clientID and clientSecret on the IGDB Authserver, and store it in an AccessTokenResponse struct
+func getAppToken(clientID, clientSecret string) (*AccessTokenResponse, error) {
+	appToken := &AccessTokenResponse{}
+
+	resp, err := http.Post(fmt.Sprintf("https://id.twitch.tv/oauth2/token?client_id=%s&client_secret=%s&grant_type=client_credentials", clientID, clientSecret), "text/plain-text", nil)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.NewDecoder(resp.Body).Decode(appToken)
+	if err != nil {
+		return nil, err
+	}
+
+	return appToken, nil
 }
